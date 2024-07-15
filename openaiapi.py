@@ -13,10 +13,7 @@ dotenv.load_dotenv()
 DEFAULTS = {
     "MODEL_DIR": "iic/SenseVoiceSmall",
     "DEVICE": "cuda:0",
-    "COMPUTE_TYPE": "float16",
-    "BEAM_SIZE": 5,
-    "VAD_FILTER": "true",
-    "MIN_SILENCE_DURATION_MS": 50,
+    "BEAM_SIZE": 64,
 }
 
 
@@ -53,7 +50,7 @@ def create_transcription(file: Annotated[bytes, File()],
       cache={},
       language=language, # "zn", "en", "yue", "ja", "ko", "nospeech"
       use_itn=False,
-      batch_size=64,
+      batch_size=get_int_env('BEAM_SIZE'),
       merge_vad=False
     )
 
